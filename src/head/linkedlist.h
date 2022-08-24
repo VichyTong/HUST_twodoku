@@ -5,7 +5,7 @@
 #ifndef HUST_TWODOKU_LINKEDLIST_H
 #define HUST_TWODOKU_LINKEDLIST_H
 
-#include "head.h"
+#include "head/head.h"
 
 struct Data{
     int data = 0;
@@ -19,9 +19,10 @@ struct Head{
 
 
 void addHead(Head* &linked_list, Head* clause);
-void addData(Head* head, Data* literal);
+void addData(Head* clause, Data* literal);
 void deleteHead(Head* &linked_list, Head* clause);
 void deleteData(Head* clause, Data* literal);
-void printLinkedList(Head *linked_list);
+void printLinkedList(Head* linked_list);
+void copyLinkedList(Head* old_linked_list, Head* &new_linked_list);
 
 #endif //HUST_TWODOKU_LINKEDLIST_H

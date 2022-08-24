@@ -8,10 +8,9 @@
 #include <cstdio>
 #include <iostream>
 #include <fstream>
-
-
-const int ROW = 9;
-const int COL = 9;
+#include <cstring>
+#include <ctime>
+#include <random>
 
 using namespace std;
 

@@ -2,7 +2,7 @@
 // Created by ted on 2022/8/22.
 //
 
-#include "linkedlist.h"
+#include "head/linkedlist.h"
 
 
 void addHead(Head* &linked_list, Head* clause){
@@ -11,7 +11,6 @@ void addHead(Head* &linked_list, Head* clause){
         return;
     }
     clause -> next_head = linked_list;
-    clause -> next_data = nullptr;
     linked_list = clause;
 }
 void addData(Head* head, Data* literal){
@@ -43,7 +42,7 @@ void deleteHead(Head* &linked_list, Head* clause){
 }
 void deleteData(Head* clause, Data* literal){
     if(literal == clause -> next_data){
-        clause -> next_data = clause -> next_data;
+        clause -> next_data = literal -> next_data;
     }
     else{
         for(Data* pre = clause -> next_data; pre != nullptr; pre = pre -> next_data){
@@ -56,10 +55,25 @@ void deleteData(Head* clause, Data* literal){
 }
 
 void printLinkedList(Head* linked_list){
+    printf("*****************\n");
     for(Head* clause = linked_list; clause != nullptr; clause = clause -> next_head){
+        printf("num = %d :",clause -> num);
         for(Data* literal = clause -> next_data; literal != nullptr; literal = literal -> next_data){
             printf("%d ",literal -> data);
         }
         printf("\n");
+    }
+    printf("*****************\n");
+}
+
+void copyLinkedList(Head* old_linked_list, Head* &new_linked_list){
+    for(Head* clause = old_linked_list; clause != nullptr; clause = clause -> next_head){
+        Head* new_clause = new Head;
+        addHead(new_linked_list, new_clause);
+        for(Data* literal = clause -> next_data; literal != nullptr; literal = literal -> next_data){
+            Data* new_literal = new Data;
+            new_literal -> data = literal -> data;
+            addData(new_clause, new_literal);
+        }
     }
 }

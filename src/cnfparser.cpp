@@ -1,10 +1,10 @@
 //
 // Created by ted on 2022/8/21.
 //
-#include "cnfparser.h"
+#include "head/cnfparser.h"
 
-string cnf_file_path = R"(..\lib\sat-20.cnf)";
-Head* parse(){
+//string cnf_file_path = R"(..\lib\ec-iso-ukn009.shuffled-as.sat05-3632-1584.cnf)";
+Head* parse(int &var_num, const string& cnf_file_path){
     ifstream input;
     input.open(cnf_file_path,ios::in);
     if(!input.is_open()) {
@@ -19,7 +19,7 @@ Head* parse(){
         input >> type;
     }
     string tmp;
-    int var_num = 0, clause_num = 0;
+    int clause_num = 0;
     input >> tmp >> var_num >> clause_num;
     Head* linked_list = nullptr;
     for(int i = 1; i <= clause_num; i++){
@@ -31,7 +31,6 @@ Head* parse(){
             Data* new_data = new Data;
             new_data -> data = literal;
             addData(new_clause, new_data);
-            new_clause -> num ++;
             input >> literal;
         }
     }

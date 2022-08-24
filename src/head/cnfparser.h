@@ -6,6 +6,6 @@
 #define HUST_TWODOKU_CNFPARSER_H
 
 #include "linkedlist.h"
-Head* parse();
+Head* parse(int &varnum, const string& cnf_file_path);
 
 #endif //HUST_TWODOKU_CNFPARSER_H
