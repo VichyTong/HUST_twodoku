@@ -64,12 +64,6 @@ bool DPLL(Head* linked_list, int* ans){
         }
         single_clause = findSingleClause(linked_list);
     }
-    if(linked_list->next_data == nullptr){
-//        printLinkedList(linked_list);
-        printf("%d\n",linked_list->num);
-        printf("%d\n", hasEmptyClause(linked_list));
-        printf("FUCK\n");
-    }
     int v = linked_list -> next_data -> data;
     Head* linked_list_s1 = nullptr;
     Head* linked_list_s2 = nullptr;
