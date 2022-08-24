@@ -335,7 +335,6 @@ void digHole(int num){
     int cnt = 0, left_cell = 162;
     twodokuCreateRestriction();
     while(num > 0){
-        printf("num = %d\n",num);
         if(cnt == 162){
             break;
         }
@@ -409,9 +408,6 @@ void outputTwodoku(){
 void outputAnswer(){
     ofstream output;
     output.open("../lib/twodoku/answer.txt", ios::out);
-    if(!output.is_open()){
-        printf("FUCK");
-    }
     for(int i = 1; i <= 9; i ++){
         for(int j = 1; j <= 9; j ++){
             output << sudoku_A[i][j] << " ";
