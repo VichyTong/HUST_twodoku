@@ -4,77 +4,72 @@
 
 #include "head/solver.h"
 
-void simplify(Head* &linked_list, int data){
-    for(Head* clause = linked_list; clause != nullptr; clause = clause -> next_head){
-        for(Data* literal = clause -> next_data; literal != nullptr; literal = literal -> next_data){
+void simplify(MinHeap &heap, int data){
+    Head *tmp = new Head[heap.size() + 1];
+    int cnt = 0;
+    while(!heap.empty()){
+        Head clause = heap.top();
+        heap.pop();
+        bool flag = true;
+        for(Data* literal = clause.next_data; literal != nullptr; literal = literal -> next_data){
             int now_data = literal -> data;
             if(now_data == data){
-                deleteHead(linked_list, clause);
+                flag = false;
+                break;
             }
             else if (now_data == -data){
+                flag = true;
                 deleteData(clause, literal);
             }
         }
-    }
-}
-
-Head* findSingleClause(Head* linked_list){
-    for(Head* clause = linked_list; clause != nullptr; clause = clause -> next_head){
-        if(clause -> num == 1){
-            return clause;
+        if(flag){
+            tmp[++cnt] = clause;
         }
     }
-    return nullptr;
-}
-
-bool hasEmptyClause(Head* linked_list){
-    for(Head* clause = linked_list; clause != nullptr; clause = clause -> next_head){
-        if(clause -> num == 0){
-            return true;
-        }
+    for(int i = 1; i <= cnt; i++){
+        heap.push(tmp[i]);
     }
-    return false;
+    delete[] tmp;
 }
 
-Head* createSingleClause(int v){
-    Head* new_single_clause = new Head;
+Head createSingleClause(int v){
+    Head new_single_clause;
     Data* new_literal = new Data;
     new_literal -> data = v;
     addData(new_single_clause, new_literal);
     return new_single_clause;
 }
 
-bool DPLL(Head* linked_list, int* ans){
-    Head* single_clause = findSingleClause(linked_list);
-    while(single_clause != nullptr){
-        int data = single_clause -> next_data -> data;
+bool DPLL(MinHeap &heap, int* ans){
+    while(heap.top().num == 1){
+        Head single_clause = heap.top();
+        int data = single_clause.next_data -> data;
         if(data > 0){
             ans[abs(data)] = 1;
         }
         else{
             ans[abs(data)] = 0;
         }
-        deleteHead(linked_list, single_clause);
-        simplify(linked_list, data);
-        if(linked_list == nullptr){
+        heap.pop();
+        simplify(heap, data);
+        if(heap.empty()){
             return true;
         }
-        else if(hasEmptyClause(linked_list)){
+        else if(heap.top().num == 0){
             return false;
         }
-        single_clause = findSingleClause(linked_list);
     }
-    int v = linked_list -> next_data -> data;
-    Head* linked_list_s1 = nullptr;
-    Head* linked_list_s2 = nullptr;
-    copyLinkedList(linked_list, linked_list_s1);
-    copyLinkedList(linked_list, linked_list_s2);
-    addHead(linked_list_s1, createSingleClause(v));
-    addHead(linked_list_s2, createSingleClause(-v));
-    if(DPLL(linked_list_s1, ans)){
+    int v = heap.top().next_data -> data;
+    MinHeap new_heap (heap.cap());
+    copyHeap(new_heap, heap);
+    heap.push(createSingleClause(v));
+    new_heap.push(createSingleClause(-v));
+
+    if(DPLL(heap, ans)){
         return true;
     }
     else{
-        return DPLL(linked_list_s2, ans);
+        return DPLL(new_heap, ans);
     }
+
 }

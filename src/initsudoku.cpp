@@ -69,10 +69,10 @@ void initLasVegas(){
         }
     }
     int var_num = 0;
-    Head* linked_list = parse(var_num, initSudokuCnfFile(11));
+    MinHeap heap = parse(var_num, initSudokuCnfFile(11));
     int* ans = new int[var_num + 1];
     memset(ans, 0, sizeof(int) * (var_num + 1));
-    if(!DPLL(linked_list, ans)){
+    if(!DPLL(heap, ans)){
         printf("Init failed.\n");
     }
     fillBoard(ans);
@@ -296,10 +296,10 @@ bool tryDig(int p, int x, int y, int left_cell){
             }
             sudoku_A[x][y] = i;
             int var_num;
-            Head* linked_list = parse(var_num, initTwodokuCnfFile(left_cell));
+            MinHeap heap = parse(var_num, initTwodokuCnfFile(left_cell));
             int* ans = new int[var_num + 1];
             memset(ans, 0, sizeof (int) * (var_num + 1));
-            if(DPLL(linked_list, ans)){
+            if(DPLL(heap, ans)){
                 twodokuSet(0, x, y, data);
                 return false;
             }
@@ -318,10 +318,10 @@ bool tryDig(int p, int x, int y, int left_cell){
             }
             sudoku_B[x][y] = i;
             int var_num;
-            Head* linked_list = parse(var_num, initTwodokuCnfFile(left_cell));
+            MinHeap heap = parse(var_num, initTwodokuCnfFile(left_cell));
             int* ans = new int[var_num + 1];
             memset(ans, 0, sizeof (int) * (var_num + 1));
-            if(DPLL(linked_list, ans)){
+            if(DPLL(heap, ans)){
                 twodokuSet(0, x, y, data);
                 return false;
             }
@@ -434,10 +434,10 @@ void initTwodoku(){
         }
     }
     int var_num = 0;
-    Head* linked_list = parse(var_num, initSudokuCnfFile(9));
+    MinHeap heap = parse(var_num, initSudokuCnfFile(9));
     int* ans = new int[var_num + 1];
     memset(ans, 0, sizeof(int) * (var_num + 1));
-    if(!DPLL(linked_list, ans)){
+    if(!DPLL(heap, ans)){
         printf("Init failed.\n");
     }
     fillBoard(ans);

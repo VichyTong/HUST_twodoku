@@ -7,10 +7,6 @@
 
 #include "head/linkedlist.h"
 
-void simplify(Head* &linked_list, int num);
-Head* findSingleClause(Head* linked_list);
-bool hasEmptyClause(Head* linked_list);
-Head* createSingleClause(int v);
-bool DPLL(Head* linked_list, int* ans);
+bool DPLL(MinHeap &heap, int* ans);
 
 #endif //HUST_TWODOKU_SOLVER_H
